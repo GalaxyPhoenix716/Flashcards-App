@@ -1,4 +1,4 @@
-import 'package:flashcards_app/screens/home_screen.dart';
+import 'package:flashcards_app/widgets/navigation_menu.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: HomeScreen(),
+      home: NavigationMenu(),
     );
   }
 }
