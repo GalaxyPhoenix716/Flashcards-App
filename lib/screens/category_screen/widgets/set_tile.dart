@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flashcards_app/models/card_set/card_set.dart';
 import 'package:flashcards_app/utils/colors.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class SetTile extends StatelessWidget {
@@ -78,11 +79,46 @@ class SetTile extends StatelessWidget {
             ),
 
             Positioned(
-              top: -5,
-              right: -5,
-              child: IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.more_vert, color: FcColors.progressGrey),
+              top: 10,
+              right: 10,
+              child: PopupMenuButton<String>(
+                color: FcColors.white,
+                onSelected: (value) {
+                  if (value == 'edit') {
+                    showDialog(
+                      context: context,
+                      builder: (_) => SizedBox(),
+                    );
+                  } else if (value == 'add') {
+                    showDialog(
+                      context: context,
+                      builder: (_) => SizedBox(),
+                    );
+                  }
+                },
+                itemBuilder: (context) => [
+                  const PopupMenuItem(
+                    value: 'edit',
+                    child: Row(
+                      children: [
+                        Icon(Iconsax.edit, size: 18),
+                        SizedBox(width: 8),
+                        Text("Edit Set"),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: 'add',
+                    child: Row(
+                      children: [
+                        Icon(Iconsax.add, size: 18),
+                        SizedBox(width: 8),
+                        Text("Add Card"),
+                      ],
+                    ),
+                  ),
+                ],
+                child: const Icon(Icons.more_vert, color: FcColors.progressGrey,), 
               ),
             ),
           ],
