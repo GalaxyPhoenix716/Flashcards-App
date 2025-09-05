@@ -1,3 +1,4 @@
+import 'package:flashcards_app/screens/category_screen/view/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -9,12 +10,13 @@ class NavigationMenu extends StatefulWidget {
 }
 
 class _NavigationMenuState extends State<NavigationMenu> {
-  final List<Widget> screens = [Container(color: Colors.blue,), Container(color: Colors.green,)];
+  final List<Widget> screens = [HomeScreen(), Container(color: Colors.green,)];
   int currentScreen = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: NavigationBar(
+        height: 70,
         elevation: 0,
         selectedIndex: currentScreen,
         onDestinationSelected: (index) {
@@ -28,12 +30,12 @@ class _NavigationMenuState extends State<NavigationMenu> {
             label: "Categories",
           ),
           NavigationDestination(
-            icon: Icon(Iconsax.cards), 
+            icon: Icon(Iconsax.menu_board), 
             label: "Practice"
           ),
         ], 
       ),
-      body: screens[currentScreen],
+      body: SafeArea(child: screens[currentScreen]),
     );
   }
 }
