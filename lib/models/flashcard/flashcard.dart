@@ -18,7 +18,7 @@ class Flashcard extends HiveObject {
   Flashcard({
     required this.question,
     required this.answer,
-    required this.isCompleted,
-    required this.isFavourite,
+    this.isCompleted = false,
+    this.isFavourite = false,
   });
 }

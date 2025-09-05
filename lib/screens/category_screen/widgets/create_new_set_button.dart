@@ -1,3 +1,4 @@
+import 'package:flashcards_app/screens/category_screen/widgets/create_new_set_dialog.dart';
 import 'package:flashcards_app/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -12,24 +13,7 @@ class CreateNewSetButton extends StatelessWidget {
         showDialog(
           context: context,
           builder: (context) {
-            return AlertDialog(
-              title: Text("Create New Set"),
-              content: Text("Functionality to create a new set goes here."),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text("Close"),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text("Add"),
-                ),
-              ],
-            );
+            return CreateNewSetDialog();
           },
         );
       },
@@ -53,3 +37,5 @@ class CreateNewSetButton extends StatelessWidget {
     );
   }
 }
+
+

@@ -116,7 +116,7 @@ class _CategoryScreenState extends State<CategoryScreen>
                     return const Center(
                       child: Text(
                         "No Card Sets",
-                        style: TextStyle(fontSize: 16, color: FcColors.grey),
+                        style: TextStyle(fontSize: 16, color: Colors.black),
                       ),
                     );
                   }

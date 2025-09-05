@@ -18,8 +18,8 @@ class CardSet extends HiveObject {
 
   CardSet({
     required this.title,
-    required this.noOfCards,
-    required this.cardsCompleted,
+    this.noOfCards = 0,
+    this.cardsCompleted = 0,
     required this.flashcards,
   });
 }

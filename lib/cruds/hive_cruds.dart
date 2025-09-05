@@ -3,15 +3,8 @@ import 'package:flashcards_app/models/flashcard/flashcard.dart';
 import 'package:hive/hive.dart';
 
 class FlashcardCruds {
-  static Future<void> createcardSet(String title) async {
-    var box = Hive.box('cardSets');
-    var newSet = CardSet(
-      title: title,
-      noOfCards: 0,
-      cardsCompleted: 0,
-      flashcards: [],
-    );
-
+  static Future<void> createCardSet(CardSet newSet) async {
+    var box = Hive.box<CardSet>('cardSets');
     await box.add(newSet);
   }
 
@@ -20,7 +13,7 @@ class FlashcardCruds {
     final set = box.getAt(setIndex);
     if (set != null) {
       set.flashcards.add(card);
-      set.noOfCards += set.flashcards.length;
+      set.noOfCards = set.flashcards.length;
       await set.save();
     }
   }

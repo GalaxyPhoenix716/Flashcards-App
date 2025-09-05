@@ -3,17 +3,20 @@ import 'package:hive/hive.dart';
 import 'package:flashcards_app/models/card_set/card_set.dart';
 import 'package:flashcards_app/models/flashcard/flashcard.dart';
 import 'package:flashcards_app/widgets/navigation_menu.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  var directory = await getApplicationDocumentsDirectory();
-  Hive.init(directory.path);
+  // var directory = await getApplicationDocumentsDirectory();
+  await Hive.initFlutter();
 
   Hive.registerAdapter(FlashcardAdapter());
   Hive.registerAdapter(CardSetAdapter());
 
-  await Hive.openBox<CardSet>('cardSets');
+  if (!Hive.isBoxOpen('cardSets')) {
+    await Hive.openBox<CardSet>('cardSets');
+  }
 
   runApp(const MyApp());
 }
