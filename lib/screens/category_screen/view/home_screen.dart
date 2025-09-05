@@ -1,12 +1,34 @@
-import 'package:flashcards_app/screens/category_screen/widgets/curved_edges.dart';
-import 'package:flashcards_app/utils/colors.dart';
+import 'package:flashcards_app/widgets/animated_menu_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:flashcards_app/screens/category_screen/widgets/create_new_set_button.dart';
+import 'package:flashcards_app/screens/category_screen/widgets/curved_edges.dart';
+import 'package:flashcards_app/screens/category_screen/widgets/favourite_cards_button.dart';
+import 'package:flashcards_app/utils/colors.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    int noOfCards = 10;
     return Scaffold(
       body: Column(
         children: [
@@ -14,16 +36,22 @@ class HomeScreen extends StatelessWidget {
             clipper: FcCurvedEdges(),
             child: Container(
               color: FcColors.primary,
-              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 45, top: 10),
+              padding: const EdgeInsets.only(
+                left: 10,
+                right: 10,
+                bottom: 45,
+                top: 10,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.menu, color: FcColors.white),
+                      AnimatedMenuIcon(
+                        color: FcColors.white,
+                        isOpen: false,
+                        animationController: _animationController,
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(
@@ -68,25 +96,10 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           flex: 1,
-                          child: Container(
-                            height: 120,
-                            decoration: BoxDecoration(
-                              color: FcColors.tertiary,
-                              borderRadius: BorderRadius.circular(13),
-                            ),
-                          ),
+                          child: FavouriteCardsButton(noOfCards: noOfCards),
                         ),
                         const SizedBox(width: 13),
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            height: 120,
-                            decoration: BoxDecoration(
-                              color: FcColors.tertiary,
-                              borderRadius: BorderRadius.circular(13),
-                            ),
-                          ),
-                        ),
+                        Expanded(flex: 1, child: CreateNewSetButton()),
                       ],
                     ),
                   ),
