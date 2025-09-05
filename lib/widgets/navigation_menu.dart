@@ -1,4 +1,4 @@
-import 'package:flashcards_app/screens/category_screen/view/home_screen.dart';
+import 'package:flashcards_app/screens/category_screen/view/category_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -10,7 +10,10 @@ class NavigationMenu extends StatefulWidget {
 }
 
 class _NavigationMenuState extends State<NavigationMenu> {
-  final List<Widget> screens = [HomeScreen(), Container(color: Colors.green,)];
+  final List<Widget> screens = [
+    CategoryScreen(),
+    Container(color: Colors.green),
+  ];
   int currentScreen = 0;
   @override
   Widget build(BuildContext context) {
@@ -30,10 +33,10 @@ class _NavigationMenuState extends State<NavigationMenu> {
             label: "Categories",
           ),
           NavigationDestination(
-            icon: Icon(Iconsax.menu_board), 
-            label: "Practice"
+            icon: Icon(Iconsax.menu_board),
+            label: "Practice",
           ),
-        ], 
+        ],
       ),
       body: SafeArea(child: screens[currentScreen]),
     );
