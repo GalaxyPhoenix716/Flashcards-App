@@ -37,8 +37,8 @@ class _HomeScreenState extends State<HomeScreen>
             child: Container(
               color: FcColors.primary,
               padding: const EdgeInsets.only(
-                left: 10,
-                right: 10,
+                left: 20,
+                right: 20,
                 bottom: 45,
                 top: 10,
               ),
@@ -67,41 +67,35 @@ class _HomeScreenState extends State<HomeScreen>
                     ],
                   ),
                   const SizedBox(height: 12),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          'Categories',
-                          style: TextStyle(
-                            fontSize: 32,
-                            color: FcColors.tertiary,
-                          ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text(
+                        'Categories',
+                        style: TextStyle(
+                          fontSize: 32,
+                          color: FcColors.tertiary,
                         ),
-                        Text(
-                          'Pick a set to practice',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: FcColors.tertiary,
-                          ),
+                      ),
+                      Text(
+                        'Pick a set to practice',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: FcColors.tertiary,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 30),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: FavouriteCardsButton(noOfCards: noOfCards),
-                        ),
-                        const SizedBox(width: 13),
-                        Expanded(flex: 1, child: CreateNewSetButton()),
-                      ],
-                    ),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: FavouriteCardsButton(noOfCards: noOfCards),
+                      ),
+                      const SizedBox(width: 13),
+                      Expanded(flex: 1, child: CreateNewSetButton()),
+                    ],
                   ),
                 ],
               ),
