@@ -20,6 +20,7 @@ class FlashcardAdapter extends TypeAdapter<Flashcard> {
       question: fields[0] as String,
       answer: fields[1] as String,
       isCompleted: fields[2] as bool,
+      isFavourite: fields[3] as bool,
     );
   }
 

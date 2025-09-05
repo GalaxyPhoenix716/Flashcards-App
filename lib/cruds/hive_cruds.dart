@@ -55,6 +55,19 @@ class FlashcardCruds {
     }
   }
 
+  static Future<void> toggleCardFavouriteStatus(
+    int setIndex,
+    int cardIndex,
+  ) async {
+    var box = Hive.box<CardSet>('cardSets');
+    final set = box.getAt(setIndex);
+    if (set != null && cardIndex < set.flashcards.length) {
+      final card = set.flashcards[cardIndex];
+      card.isFavourite = !card.isFavourite;
+      await set.save();
+    }
+  }
+
   static Future<void> editCard(
     int setIndex,
     int cardIndex,

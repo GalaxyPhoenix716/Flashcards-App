@@ -12,6 +12,13 @@ class Flashcard extends HiveObject {
   @HiveField(2)
   bool isCompleted;
 
-  Flashcard({required this.question, required this.answer, required this.isCompleted});
-  
+  @HiveField(3)
+  bool isFavourite;
+
+  Flashcard({
+    required this.question,
+    required this.answer,
+    required this.isCompleted,
+    required this.isFavourite,
+  });
 }
