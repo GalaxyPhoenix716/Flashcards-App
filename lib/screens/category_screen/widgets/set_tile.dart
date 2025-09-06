@@ -7,8 +7,14 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class SetTile extends StatelessWidget {
   final CardSet set;
+  final int setIndex;
   final void Function(CardSet) onGoToPractice;
-  const SetTile({super.key, required this.set, required this.onGoToPractice});
+  const SetTile({
+    super.key,
+    required this.set,
+    required this.setIndex,
+    required this.onGoToPractice,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +59,9 @@ class SetTile extends StatelessWidget {
                         animationDuration: 500,
                         width: 140,
                         lineHeight: 8,
-                        percent: set.cardsCompleted / set.noOfCards,
+                        percent: (set.noOfCards != 0)
+                            ? set.cardsCompleted / set.noOfCards
+                            : 0,
                         backgroundColor: FcColors.progressGrey,
                         progressColor: FcColors.progressColor,
                         barRadius: Radius.circular(5),
@@ -87,7 +95,8 @@ class SetTile extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EditSetScreen(set: set),
+                      builder: (context) =>
+                          EditSetScreen(set: set, setIndex: setIndex),
                     ),
                   );
                 },

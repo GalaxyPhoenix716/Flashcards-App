@@ -145,7 +145,7 @@ class CreateNewSetDialog extends StatelessWidget {
 
                       await FlashcardCruds.createCardSet(newSet);
 
-                      Navigator.pop(context);
+                      Navigator.of(context).pop();
                     }
                   },
                   child: const Text(

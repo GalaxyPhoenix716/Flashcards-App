@@ -57,10 +57,11 @@ class _CategoryScreenState extends State<CategoryScreen>
                   return ListView.builder(
                     itemCount: box.length,
                     shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      final set = box.getAt(index)!;
+                    itemBuilder: (context, setIndex) {
+                      final set = box.getAt(setIndex)!;
                       return SetTile(
                         set: set,
+                        setIndex: setIndex,
                         onGoToPractice: widget.onGoToPractice,
                       );
                     },
