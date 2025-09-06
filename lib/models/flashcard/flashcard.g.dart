@@ -27,11 +27,15 @@ class FlashcardAdapter extends TypeAdapter<Flashcard> {
   @override
   void write(BinaryWriter writer, Flashcard obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.question)
       ..writeByte(1)
-      ..write(obj.answer);
+      ..write(obj.answer)
+      ..writeByte(2)
+      ..write(obj.isCompleted)
+      ..writeByte(3)
+      ..write(obj.isFavourite);
   }
 
   @override
