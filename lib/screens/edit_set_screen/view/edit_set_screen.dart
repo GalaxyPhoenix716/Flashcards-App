@@ -1,5 +1,6 @@
 import 'package:flashcards_app/cruds/hive_cruds.dart';
 import 'package:flashcards_app/models/card_set/card_set.dart';
+import 'package:flashcards_app/screens/edit_set_screen/widgets/add_flashcard_dialog.dart';
 import 'package:flashcards_app/screens/edit_set_screen/widgets/edit_screen_upper_clip.dart';
 import 'package:flashcards_app/utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,14 @@ class _EditSetScreenState extends State<EditSetScreen> {
                 ),
 
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AddNewFlashcardDialog(setIndex: widget.setIndex);
+                      },
+                    );
+                  },
                   icon: Icon(Iconsax.add, color: FcColors.secondary),
                   iconSize: 30,
                 ),
