@@ -43,16 +43,8 @@ class FcAppbar extends StatelessWidget implements PreferredSizeWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: const Icon(Iconsax.add, color: FcColors.white, size: 30),
-          ),
-          IconButton(
             onPressed: onShuffle, 
             icon: const Icon(Iconsax.shuffle, color: FcColors.white),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Iconsax.filter, color: FcColors.white),
           ),
         ],
       ),
