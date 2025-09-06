@@ -8,8 +8,9 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class PracticeScreen extends StatefulWidget {
   final CardSet set;
+  final int setIndex;
   final VoidCallback onGoBack;
-  const PracticeScreen({super.key, required this.set, required this.onGoBack});
+  const PracticeScreen({super.key, required this.set, required this.onGoBack, required this.setIndex});
 
   @override
   State<PracticeScreen> createState() => _PracticeScreenState();
@@ -53,7 +54,7 @@ class _PracticeScreenState extends State<PracticeScreen> {
               barRadius: const Radius.circular(10),
             ),
             // const SizedBox(height: 40),
-            FlashcardStack(cards: widget.set.flashcards),
+            FlashcardStack(cards: widget.set.flashcards, setIndex: widget.setIndex,),
 
             // Column(
             //   children: (widget.set.noOfCards == 0)

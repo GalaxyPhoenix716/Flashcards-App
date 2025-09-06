@@ -22,13 +22,13 @@ class _NavigationMenuState extends State<NavigationMenu> {
     super.dispose();
   }
 
-  void goToPractice(CardSet set) {
+  void goToPractice(CardSet set, int setIndex) {
     _pageController.jumpToPage(1);
     setState(() {
       currentScreen = 1;
     });
 
-    _screens[1] = PracticeScreen(set: set, onGoBack: goToCategories);
+    _screens[1] = PracticeScreen(set: set, setIndex: setIndex, onGoBack: goToCategories);
   }
 
   void goToCategories() {

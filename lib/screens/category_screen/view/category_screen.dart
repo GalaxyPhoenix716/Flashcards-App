@@ -6,7 +6,7 @@ import 'package:flashcards_app/models/card_set/card_set.dart';
 import 'package:flashcards_app/utils/colors.dart';
 
 class CategoryScreen extends StatefulWidget {
-  final void Function(CardSet) onGoToPractice;
+  final void Function(CardSet, int) onGoToPractice;
   const CategoryScreen({super.key, required this.onGoToPractice});
 
   @override

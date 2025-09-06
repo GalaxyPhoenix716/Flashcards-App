@@ -1,71 +1,19 @@
-// import 'package:flashcards_app/models/flashcard/flashcard.dart';
-// import 'package:flashcards_app/screens/practice_screen/view/practice_screen.dart';
-// import 'package:flashcards_app/utils/colors.dart';
-// import 'package:flutter/material.dart';
-// import 'package:iconsax/iconsax.dart';
-
-// class FlashcardWidget extends StatelessWidget {
-//   final Flashcard card;
-//   const FlashcardWidget({
-//     super.key,
-//     required this.card
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SizedBox(
-//       width: double.infinity,
-//       height: MediaQuery.of(context).size.height * 0.5,
-//       child: Card(
-//         color: FcColors.white,
-//         child: Padding(
-//           padding: const EdgeInsets.all(8.0),
-//           child: SizedBox(
-//             child: Stack(
-//               children: [
-//                 Align(
-//                   alignment: Alignment.topRight,
-//                   child: IconButton(
-//                     onPressed: () {},
-//                     icon: const Icon(
-//                       Iconsax.star,
-//                       color: FcColors.secondary,
-//                       size: 30,
-//                     ),
-//                   ),
-//                 ),
-//                 Center(
-//                   child: FittedBox(
-//                     child: Text(
-//                       card.question,
-//                       style: const TextStyle(
-//                         fontSize: 50,
-//                         fontWeight: FontWeight.w500,
-//                         color: Colors.black,
-//                       ),
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flashcards_app/models/flashcard/flashcard.dart';
+import 'package:flashcards_app/cruds/hive_cruds.dart'; // for toggleCardFavouriteStatus
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:iconsax/iconsax.dart';
 
-// Use this inside your PracticeScreen, passing the list of flashcards.
 class FlashcardStack extends StatelessWidget {
-  final List<Flashcard> cards; // your model
+  final List<Flashcard> cards;
+  final int setIndex;
 
-  const FlashcardStack({super.key, required this.cards});
+  const FlashcardStack({
+    super.key,
+    required this.cards,
+    required this.setIndex,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -80,43 +28,77 @@ class FlashcardStack extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.5,
       child: CardSwiper(
         cardsCount: cards.length,
-        numberOfCardsDisplayed: visible, // shows the stack (up to 3)
+        numberOfCardsDisplayed: visible,
         isLoop: false,
         allowedSwipeDirection: const AllowedSwipeDirection.symmetric(
           horizontal: true,
           vertical: false,
         ),
-        onSwipe: (previousIndex, currentIndex, direction) {
-          // return true to accept the swipe
-          // you can update progress here if you want
-          return true;
-        },
-        cardBuilder: (context, index, percentX, percentY) {
-          final c = cards[index];
-          return FlipCard(
-            direction: FlipDirection.HORIZONTAL,
-            front: _flashCardFace(text: c.question, starred: c.isFavourite),
-            back: _flashCardFace(
-              text: c.answer,
-              starred: c.isFavourite,
-              back: true,
-            ),
+        onSwipe: (previousIndex, currentIndex, direction) => true,
+        cardBuilder: (context, cardIndex, percentX, percentY) {
+          return _FlashcardItem(
+            card: cards[cardIndex],
+            setIndex: setIndex,
+            cardIndex: cardIndex,
           );
         },
       ),
     );
   }
+}
 
-  Widget _flashCardFace({
-    required String text,
-    bool starred = false,
-    bool back = false,
-  }) {
+class _FlashcardItem extends StatefulWidget {
+  final Flashcard card;
+  final int setIndex;
+  final int cardIndex;
+
+  const _FlashcardItem({
+    required this.card,
+    required this.setIndex,
+    required this.cardIndex,
+  });
+
+  @override
+  State<_FlashcardItem> createState() => _FlashcardItemState();
+}
+
+class _FlashcardItemState extends State<_FlashcardItem> {
+  late bool starred;
+  late bool learned;
+
+  @override
+  void initState() {
+    super.initState();
+    starred = widget.card.isFavourite;
+    learned = widget.card.isCompleted;
+  }
+
+  Future<void> _toggleStar() async {
+    await FlashcardCruds.toggleCardFavouriteStatus(
+      widget.setIndex,
+      widget.cardIndex,
+    );
+    setState(() {
+      starred = !starred;
+    });
+  }
+
+  Future<void> _toggleLearned() async {
+    await FlashcardCruds.toggleCardCompletionStatus(
+      widget.setIndex,
+      widget.cardIndex,
+    );
+    setState(() {
+      learned = !learned;
+    });
+  }
+
+  Widget _flashCardFace(String text, {required bool back}) {
     return Container(
       margin: const EdgeInsets.all(12),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: learned ? Colors.green.shade50 : Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 10),
@@ -124,6 +106,17 @@ class FlashcardStack extends StatelessWidget {
       ),
       child: Stack(
         children: [
+          Positioned(
+            top: 4,
+            right: 4,
+            child: InkWell(
+              onTap: _toggleStar,
+              child: starred
+                  ? Icon(Iconsax.star1, color: Colors.orange, size: 30)
+                  : Icon(Iconsax.star, color: Colors.orange),
+            ),
+          ),
+
           Center(
             child: Text(
               text,
@@ -135,20 +128,34 @@ class FlashcardStack extends StatelessWidget {
               ),
             ),
           ),
+
           Positioned(
-            top: 4,
-            right: 4,
+            bottom: 8,
+            right: 8,
             child: InkWell(
-              onTap: () async { 
-              },
-              child: Icon(
-                starred ? Iconsax.star1 : Iconsax.star,
-                color: Colors.orange,
+              onTap: _toggleLearned,
+              borderRadius: BorderRadius.circular(30),
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: learned ? Colors.green : Colors.grey.shade300,
+                ),
+                child: Icon(Icons.check, color: Colors.white, size: 15, weight: 3,),
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FlipCard(
+      direction: FlipDirection.HORIZONTAL,
+      front: _flashCardFace(widget.card.question, back: false),
+      back: _flashCardFace(widget.card.answer, back: true),
     );
   }
 }

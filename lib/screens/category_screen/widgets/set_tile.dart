@@ -8,7 +8,7 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 class SetTile extends StatelessWidget {
   final CardSet set;
   final int setIndex;
-  final void Function(CardSet) onGoToPractice;
+  final void Function(CardSet, int) onGoToPractice;
   const SetTile({
     super.key,
     required this.set,
@@ -19,7 +19,7 @@ class SetTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => onGoToPractice(set),
+      onTap: () => onGoToPractice(set, setIndex),
       child: Container(
         margin: const EdgeInsets.all(10),
         decoration: BoxDecoration(
