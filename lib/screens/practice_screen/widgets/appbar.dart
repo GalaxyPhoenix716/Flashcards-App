@@ -40,9 +40,7 @@ class FcAppbar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Iconsax.add, color: FcColors.white,size: 30,)),
-          IconButton(onPressed: () {}, icon: Icon(Iconsax.shuffle, color: FcColors.white,)),
-          IconButton(onPressed: () {}, icon: Icon(Iconsax.filter, color: FcColors.white,)),
+          // IconButton(onPressed: () {}, icon: Icon(Iconsax.shuffle, color: FcColors.white,)),
         ],
       ),
     );

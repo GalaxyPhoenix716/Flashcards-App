@@ -3,7 +3,6 @@ import 'package:flashcards_app/screens/practice_screen/widgets/appbar.dart';
 import 'package:flashcards_app/screens/practice_screen/widgets/flashcard_widget.dart';
 import 'package:flashcards_app/utils/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class PracticeScreen extends StatefulWidget {
@@ -81,20 +80,6 @@ class _PracticeScreenState extends State<PracticeScreen> {
                   },
                 ),
               ],
-            ),
-
-            Center(
-              child: Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  color: FcColors.secondary,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Center(
-                  child: Icon(Iconsax.eye, color: FcColors.white, size: 30),
-                ),
-              ),
             ),
           ],
         ),

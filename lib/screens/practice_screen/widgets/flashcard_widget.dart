@@ -131,25 +131,14 @@ class _FlashcardItem extends StatefulWidget {
 }
 
 class _FlashcardItemState extends State<_FlashcardItem> {
-  late bool starred;
-  late bool learned;
-
-  @override
-  void initState() {
-    super.initState();
-    starred = widget.card.isFavourite;
-    learned = widget.card.isCompleted;
-  }
-
+  // Local state is no longer needed for starred/learned
   Future<void> _toggleStar() async {
     HapticFeedback.lightImpact();
     await FlashcardCruds.toggleCardFavouriteStatus(
       widget.setIndex,
       widget.cardIndex,
     );
-    setState(() {
-      starred = !starred;
-    });
+    setState(() {}); // rebuild to reflect updated Hive value
   }
 
   Future<void> _toggleLearned() async {
@@ -158,12 +147,13 @@ class _FlashcardItemState extends State<_FlashcardItem> {
       widget.setIndex,
       widget.cardIndex,
     );
-    setState(() {
-      learned = !learned;
-    });
+    setState(() {}); // rebuild to reflect updated Hive value
   }
 
   Widget _flashCardFace(String text, {required bool back}) {
+    final starred = widget.card.isFavourite;
+    final learned = widget.card.isCompleted;
+
     return Container(
       margin: const EdgeInsets.all(12),
       padding: const EdgeInsets.all(20),
@@ -171,11 +161,12 @@ class _FlashcardItemState extends State<_FlashcardItem> {
         color: learned ? Colors.green.shade50 : Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
-          BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 10),
+          BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10),
         ],
       ),
       child: Stack(
         children: [
+          // Star Icon
           Positioned(
             top: 4,
             right: 4,
@@ -187,6 +178,7 @@ class _FlashcardItemState extends State<_FlashcardItem> {
             ),
           ),
 
+          // Question/Answer Text
           Center(
             child: Text(
               text,
@@ -199,6 +191,7 @@ class _FlashcardItemState extends State<_FlashcardItem> {
             ),
           ),
 
+          // Learned Check Icon
           Positioned(
             bottom: 8,
             right: 8,
