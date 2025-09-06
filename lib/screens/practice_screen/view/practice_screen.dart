@@ -30,6 +30,12 @@ class _PracticeScreenState extends State<PracticeScreen> {
         showBackArrow: true,
         title: widget.set.title,
         leadingOnPressed: widget.onGoBack,
+        onShuffle: () {
+          setState(() {
+            widget.set.flashcards.shuffle(); 
+            cardsShown = 0; 
+          });
+        },
       ),
       body: Padding(
         padding: const EdgeInsets.all(15),

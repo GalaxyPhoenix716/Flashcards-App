@@ -9,17 +9,19 @@ class FcAppbar extends StatelessWidget implements PreferredSizeWidget {
     required this.showBackArrow,
     this.actions,
     this.leadingOnPressed,
+    this.onShuffle,  
   });
 
   final String? title;
   final bool showBackArrow;
   final List<Widget>? actions;
   final VoidCallback? leadingOnPressed;
+  final VoidCallback? onShuffle; 
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsetsGeometry.symmetric(horizontal: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 8), 
       child: AppBar(
         backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
@@ -28,25 +30,35 @@ class FcAppbar extends StatelessWidget implements PreferredSizeWidget {
         leading: showBackArrow
             ? IconButton(
                 onPressed: leadingOnPressed,
-                icon: Icon(Iconsax.arrow_left, color: FcColors.white,),
+                icon: const Icon(Iconsax.arrow_left, color: FcColors.white),
               )
-            : SizedBox(),
+            : const SizedBox(),
         title: Text(
           title ?? '',
-          style: TextStyle(
+          style: const TextStyle(
             color: FcColors.white,
             fontSize: 30,
             fontWeight: FontWeight.w300,
           ),
         ),
         actions: [
-          // IconButton(onPressed: () {}, icon: Icon(Iconsax.shuffle, color: FcColors.white,)),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Iconsax.add, color: FcColors.white, size: 30),
+          ),
+          IconButton(
+            onPressed: onShuffle, 
+            icon: const Icon(Iconsax.shuffle, color: FcColors.white),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Iconsax.filter, color: FcColors.white),
+          ),
         ],
       ),
     );
   }
 
   @override
-  Size get preferredSize =>
-      Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
