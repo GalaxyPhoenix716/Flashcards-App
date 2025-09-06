@@ -1,3 +1,4 @@
+import 'package:flashcards_app/screens/edit_set_screen/view/edit_set_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flashcards_app/models/card_set/card_set.dart';
 import 'package:flashcards_app/utils/colors.dart';
@@ -82,7 +83,14 @@ class SetTile extends StatelessWidget {
               top: 10,
               right: 25,
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditSetScreen(set: set),
+                    ),
+                  );
+                },
                 child: Icon(
                   Iconsax.more,
                   weight: 2,
