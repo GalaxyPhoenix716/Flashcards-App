@@ -8,11 +8,13 @@ class FlashcardListTile extends StatelessWidget {
   final Flashcard flashcard;
   final int setIndex;
   final int cardIndex;
+  final VoidCallback? onCardDeleted;
   const FlashcardListTile({
     super.key,
     required this.flashcard,
     required this.setIndex,
     required this.cardIndex,
+    this.onCardDeleted,
   });
 
   @override
@@ -71,6 +73,7 @@ class FlashcardListTile extends StatelessWidget {
                         return DeleteFlashcardDialog(
                           setIndex: setIndex,
                           cardIndex: cardIndex,
+                          onCardDeleted: onCardDeleted,
                         );
                       },
                     );

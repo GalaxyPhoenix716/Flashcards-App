@@ -83,6 +83,9 @@ class _EditSetScreenState extends State<EditSetScreen> {
                           flashcard: widget.set.flashcards[cardIndex],
                           setIndex: widget.setIndex,
                           cardIndex: cardIndex,
+                          onCardDeleted: () {
+                            setState(() {});
+                          },
                         );
                       },
                     ),

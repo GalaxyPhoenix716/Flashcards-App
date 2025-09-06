@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 class DeleteFlashcardDialog extends StatelessWidget {
   final int setIndex;
   final int cardIndex;
+  final VoidCallback? onCardDeleted;
   const DeleteFlashcardDialog({
     super.key,
     required this.setIndex,
     required this.cardIndex,
+    this.onCardDeleted,
   });
 
   @override
@@ -25,6 +27,7 @@ class DeleteFlashcardDialog extends StatelessWidget {
         TextButton(
           onPressed: () async {
             await FlashcardCruds.deleteCard(setIndex, cardIndex);
+            if (onCardDeleted != null) onCardDeleted!();
             Navigator.of(context).pop();
           },
           child: const Text("Delete", style: TextStyle(color: Colors.red)),
