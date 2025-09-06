@@ -9,7 +9,8 @@ import 'package:flashcards_app/screens/category_screen/widgets/favourite_cards_b
 import 'package:flashcards_app/utils/colors.dart';
 
 class CategoryScreen extends StatefulWidget {
-  const CategoryScreen({super.key});
+  final void Function(CardSet) onGoToPractice;
+  const CategoryScreen({super.key, required this.onGoToPractice});
 
   @override
   State<CategoryScreen> createState() => _CategoryScreenState();
@@ -126,7 +127,10 @@ class _CategoryScreenState extends State<CategoryScreen>
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       final set = box.getAt(index)!;
-                      return SetTile(set: set);
+                      return SetTile(
+                        set: set,
+                        onGoToPractice: widget.onGoToPractice,
+                      );
                     },
                   );
                 },

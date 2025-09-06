@@ -5,14 +5,14 @@ import 'package:iconsax/iconsax.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class SetTile extends StatelessWidget {
-  const SetTile({super.key, required this.set});
-
   final CardSet set;
+  final void Function(CardSet) onGoToPractice;
+  const SetTile({super.key, required this.set, required this.onGoToPractice});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () => onGoToPractice(set),
       child: Container(
         margin: const EdgeInsets.all(10),
         decoration: BoxDecoration(
@@ -80,45 +80,15 @@ class SetTile extends StatelessWidget {
 
             Positioned(
               top: 10,
-              right: 10,
-              child: PopupMenuButton<String>(
-                color: FcColors.white,
-                onSelected: (value) {
-                  if (value == 'edit') {
-                    showDialog(
-                      context: context,
-                      builder: (_) => SizedBox(),
-                    );
-                  } else if (value == 'add') {
-                    showDialog(
-                      context: context,
-                      builder: (_) => SizedBox(),
-                    );
-                  }
-                },
-                itemBuilder: (context) => [
-                  const PopupMenuItem(
-                    value: 'edit',
-                    child: Row(
-                      children: [
-                        Icon(Iconsax.edit, size: 18),
-                        SizedBox(width: 8),
-                        Text("Edit Set"),
-                      ],
-                    ),
-                  ),
-                  const PopupMenuItem(
-                    value: 'add',
-                    child: Row(
-                      children: [
-                        Icon(Iconsax.add, size: 18),
-                        SizedBox(width: 8),
-                        Text("Add Card"),
-                      ],
-                    ),
-                  ),
-                ],
-                child: const Icon(Icons.more_vert, color: FcColors.progressGrey,), 
+              right: 25,
+              child: InkWell(
+                onTap: () {},
+                child: Icon(
+                  Iconsax.more,
+                  weight: 2,
+                  size: 25,
+                  color: FcColors.progressGrey,
+                ),
               ),
             ),
           ],
