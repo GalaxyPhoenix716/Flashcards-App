@@ -32,27 +32,50 @@ class EditScreenUpperClip extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    children: [
-                      Text(
-                        _set.title,
-                        style: TextStyle(
-                          fontSize: 50,
-                          fontWeight: FontWeight.w600,
-                          color: FcColors.white,
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        FittedBox(
+                          child: Text(
+                            _set.title,
+                            style: TextStyle(
+                              fontSize: 40,
+                              fontWeight: FontWeight.w600,
+                              color: FcColors.white,
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+                        Text(
+                          "${_set.cardsCompleted} cards completed",
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: FcColors.white,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  Row(
-                    children: [
-                      Icon(Iconsax.box_1, color: FcColors.white, size: 25),
-                      const SizedBox(width: 5),
-                      Text(
-                        "${_set.noOfCards} ${(_set.noOfCards == 1) ? "card" : "cards"}",
-                        style: TextStyle(fontSize: 20, color: FcColors.white, fontWeight: FontWeight.w500),
+                  const SizedBox(width: 20,),
+                  Expanded(
+                    flex: 1,
+                    child: FittedBox(
+                      child: Row(
+                        children: [
+                          Icon(Iconsax.box_1, color: FcColors.white, size: 25),
+                          const SizedBox(width: 5),
+                          Text(
+                            "${_set.noOfCards} ${(_set.noOfCards == 1) ? "card" : "cards"}",
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: FcColors.white,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ],
               ),

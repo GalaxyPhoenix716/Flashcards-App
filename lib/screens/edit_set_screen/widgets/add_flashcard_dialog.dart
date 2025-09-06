@@ -6,7 +6,13 @@ import 'package:flutter/material.dart';
 
 class AddNewFlashcardDialog extends StatelessWidget {
   final int setIndex;
-  const AddNewFlashcardDialog({super.key, required this.setIndex});
+  final VoidCallback? onCardAdded;
+
+  const AddNewFlashcardDialog({
+    super.key,
+    required this.setIndex,
+    this.onCardAdded,
+  });
 
   void _addNewFlashcard(String question, String answer) async {
     Flashcard newCard = Flashcard(question: question, answer: answer);
@@ -110,6 +116,8 @@ class AddNewFlashcardDialog extends StatelessWidget {
                         cardQuestionController.text.trim(),
                         cardAnswerController.text.trim(),
                       );
+
+                      if (onCardAdded != null) onCardAdded!(); 
 
                       Navigator.of(context).pop();
                     }
