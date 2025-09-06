@@ -1,11 +1,13 @@
 import 'package:flashcards_app/models/flashcard/flashcard.dart';
-import 'package:flashcards_app/cruds/hive_cruds.dart'; // for toggleCardFavouriteStatus
+import 'package:flashcards_app/cruds/hive_cruds.dart';
+import 'package:flashcards_app/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:iconsax/iconsax.dart';
 
-class FlashcardStack extends StatelessWidget {
+class FlashcardStack extends StatefulWidget {
   final List<Flashcard> cards;
   final int setIndex;
 
@@ -16,18 +18,56 @@ class FlashcardStack extends StatelessWidget {
   });
 
   @override
+  State<FlashcardStack> createState() => _FlashcardStackState();
+}
+
+class _FlashcardStackState extends State<FlashcardStack> {
+  bool finished = false;
+
+  void _restart() {
+    setState(() {
+      finished = false;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (cards.isEmpty) {
+    if (widget.cards.isEmpty) {
       return const Center(child: Text("No cards"));
     }
 
-    final visible = cards.length >= 3 ? 3 : cards.length;
+    if (finished) {
+      return Center(
+        child: Center(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.5,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "All cards done!\nRevise again?",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: FcColors.white),
+                ),
+                const SizedBox(height: 20),
+                IconButton(
+                  icon: const Icon(Icons.refresh, color: FcColors.white, size: 40),
+                  onPressed: _restart,
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    final visible = widget.cards.length >= 3 ? 3 : widget.cards.length;
 
     return SizedBox(
       width: double.infinity,
       height: MediaQuery.of(context).size.height * 0.5,
       child: CardSwiper(
-        cardsCount: cards.length,
+        cardsCount: widget.cards.length,
         numberOfCardsDisplayed: visible,
         isLoop: false,
         allowedSwipeDirection: const AllowedSwipeDirection.symmetric(
@@ -35,10 +75,15 @@ class FlashcardStack extends StatelessWidget {
           vertical: false,
         ),
         onSwipe: (previousIndex, currentIndex, direction) => true,
+        onEnd: () {
+          setState(() {
+            finished = true;
+          });
+        },
         cardBuilder: (context, cardIndex, percentX, percentY) {
           return _FlashcardItem(
-            card: cards[cardIndex],
-            setIndex: setIndex,
+            card: widget.cards[cardIndex],
+            setIndex: widget.setIndex,
             cardIndex: cardIndex,
           );
         },
@@ -74,6 +119,7 @@ class _FlashcardItemState extends State<_FlashcardItem> {
   }
 
   Future<void> _toggleStar() async {
+    HapticFeedback.lightImpact();
     await FlashcardCruds.toggleCardFavouriteStatus(
       widget.setIndex,
       widget.cardIndex,
@@ -84,6 +130,7 @@ class _FlashcardItemState extends State<_FlashcardItem> {
   }
 
   Future<void> _toggleLearned() async {
+    HapticFeedback.selectionClick();
     await FlashcardCruds.toggleCardCompletionStatus(
       widget.setIndex,
       widget.cardIndex,
@@ -112,8 +159,8 @@ class _FlashcardItemState extends State<_FlashcardItem> {
             child: InkWell(
               onTap: _toggleStar,
               child: starred
-                  ? Icon(Iconsax.star1, color: Colors.orange, size: 30)
-                  : Icon(Iconsax.star, color: Colors.orange),
+                  ? const Icon(Iconsax.star1, color: Colors.orange, size: 30)
+                  : const Icon(Iconsax.star, color: Colors.orange),
             ),
           ),
 
@@ -141,7 +188,8 @@ class _FlashcardItemState extends State<_FlashcardItem> {
                   shape: BoxShape.circle,
                   color: learned ? Colors.green : Colors.grey.shade300,
                 ),
-                child: Icon(Icons.check, color: Colors.white, size: 15, weight: 3,),
+                child: const Icon(Icons.check,
+                    color: Colors.white, size: 15, weight: 3),
               ),
             ),
           ),
