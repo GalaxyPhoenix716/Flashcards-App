@@ -10,7 +10,12 @@ class PracticeScreen extends StatefulWidget {
   final CardSet set;
   final int setIndex;
   final VoidCallback onGoBack;
-  const PracticeScreen({super.key, required this.set, required this.onGoBack, required this.setIndex});
+  const PracticeScreen({
+    super.key,
+    required this.set,
+    required this.onGoBack,
+    required this.setIndex,
+  });
 
   @override
   State<PracticeScreen> createState() => _PracticeScreenState();
@@ -30,65 +35,54 @@ class _PracticeScreenState extends State<PracticeScreen> {
       body: Padding(
         padding: const EdgeInsets.all(15),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Align(
-                alignment: AlignmentGeometry.centerRight,
-                child: Text(
-                  "$cardsShown/${widget.set.noOfCards}",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400,
-                    color: FcColors.white,
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Align(
+                    alignment: AlignmentGeometry.centerRight,
+                    child: Text(
+                      "$cardsShown/${widget.set.noOfCards}",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                        color: FcColors.white,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            LinearPercentIndicator(
-              lineHeight: 7,
-              percent: cardsShown / widget.set.noOfCards,
-              backgroundColor: FcColors.white,
-              progressColor: FcColors.progressColor,
-              barRadius: const Radius.circular(10),
-            ),
-            // const SizedBox(height: 40),
-            FlashcardStack(cards: widget.set.flashcards, setIndex: widget.setIndex,),
+                const SizedBox(height: 5),
+                LinearPercentIndicator(
+                  lineHeight: 7,
+                  percent: widget.set.noOfCards == 0
+                      ? 0
+                      : cardsShown / widget.set.noOfCards,
+                  backgroundColor: FcColors.white,
+                  progressColor: FcColors.progressColor,
+                  barRadius: const Radius.circular(10),
+                ),
 
-            // Column(
-            //   children: (widget.set.noOfCards == 0)
-            //       ? [
-            //           Center(
-            //             child: const Text(
-            //               "No cards in this set",
-            //               style: TextStyle(
-            //                 fontSize: 22,
-            //                 fontWeight: FontWeight.w500,
-            //                 color: FcColors.white,
-            //               ),
-            //             ),
-            //           ),
-            //         ]
-            //       : (widget.set.noOfCards == 1)
-            //       ? [
-            //           const SizedBox(height: 40),
-            //           FlashcardWidget(card: widget.set.flashcards[0]),
-            //         ]
-            //       : (widget.set.noOfCards == 2)
-            //       ? [
-            //           const Text(
-            //             "Practice in progress",
-            //             style: TextStyle(
-            //               fontSize: 22,
-            //               fontWeight: FontWeight.w500,
-            //               color: FcColors.white,
-            //             ),
-            //           ),
-            //         ]
-            //       : [],
-            // ),
-            const SizedBox(height: 20),
+                const SizedBox(height: 20),
+
+                FlashcardStack(
+                  cards: widget.set.flashcards,
+                  setIndex: widget.setIndex,
+                  onCardSwiped: (shown) {
+                    setState(() {
+                      cardsShown = shown;
+                    });
+                  },
+                  onRestart: () {
+                    setState(() {
+                      cardsShown = 0;
+                    });
+                  },
+                ),
+              ],
+            ),
+
             Center(
               child: Container(
                 width: 80,
@@ -97,7 +91,9 @@ class _PracticeScreenState extends State<PracticeScreen> {
                   color: FcColors.secondary,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Center(child: Icon(Iconsax.eye, color: FcColors.white, size: 30)),
+                child: Center(
+                  child: Icon(Iconsax.eye, color: FcColors.white, size: 30),
+                ),
               ),
             ),
           ],

@@ -10,11 +10,15 @@ import 'package:iconsax/iconsax.dart';
 class FlashcardStack extends StatefulWidget {
   final List<Flashcard> cards;
   final int setIndex;
+  final Function(int currentIndex)? onCardSwiped;
+  final VoidCallback? onRestart;
 
   const FlashcardStack({
     super.key,
     required this.cards,
     required this.setIndex,
+    this.onCardSwiped,
+    this.onRestart,
   });
 
   @override
@@ -28,6 +32,9 @@ class _FlashcardStackState extends State<FlashcardStack> {
     setState(() {
       finished = false;
     });
+    if (widget.onRestart != null) {
+      widget.onRestart!();
+    }
   }
 
   @override
@@ -45,13 +52,21 @@ class _FlashcardStackState extends State<FlashcardStack> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  "All cards done!\nRevise again?",
+                  "Cards Completed!\nRevise again?",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: FcColors.white),
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: FcColors.white,
+                  ),
                 ),
                 const SizedBox(height: 20),
                 IconButton(
-                  icon: const Icon(Icons.refresh, color: FcColors.white, size: 40),
+                  icon: const Icon(
+                    Icons.refresh,
+                    color: FcColors.white,
+                    size: 40,
+                  ),
                   onPressed: _restart,
                 ),
               ],
@@ -74,11 +89,19 @@ class _FlashcardStackState extends State<FlashcardStack> {
           horizontal: true,
           vertical: false,
         ),
-        onSwipe: (previousIndex, currentIndex, direction) => true,
+        onSwipe: (previousIndex, currentIndex, direction) {
+          if (widget.onCardSwiped != null && currentIndex != null) {
+            widget.onCardSwiped!(currentIndex);
+          }
+          return true;
+        },
         onEnd: () {
           setState(() {
             finished = true;
           });
+          if (widget.onCardSwiped != null) {
+            widget.onCardSwiped!(widget.cards.length);
+          }
         },
         cardBuilder: (context, cardIndex, percentX, percentY) {
           return _FlashcardItem(
@@ -188,8 +211,12 @@ class _FlashcardItemState extends State<_FlashcardItem> {
                   shape: BoxShape.circle,
                   color: learned ? Colors.green : Colors.grey.shade300,
                 ),
-                child: const Icon(Icons.check,
-                    color: Colors.white, size: 15, weight: 3),
+                child: const Icon(
+                  Icons.check,
+                  color: Colors.white,
+                  size: 15,
+                  weight: 3,
+                ),
               ),
             ),
           ),
